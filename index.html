@@ -11,6 +11,7 @@
             --text-color: #d4c4a8;
             --accent-color: #8b4513;
             --soldout-color: #555;
+            --overlay-bg: rgba(0, 0, 0, 0.85);
         }
 
         body {
@@ -51,6 +52,7 @@
             position: relative;
             transition: transform 0.3s ease;
             cursor: pointer;
+            overflow: hidden; /* NEW付き画像の親要素 */
         }
 
         .item-card:hover {
@@ -58,7 +60,8 @@
             border-color: var(--accent-color);
         }
 
-        .image-placeholder {
+        /* 画像エリアの調整（ARG演出入り） */
+        .image-container {
             width: 100%;
             height: 200px;
             background: #111;
@@ -67,6 +70,24 @@
             justify-content: center;
             margin-bottom: 15px;
             border: 1px inset #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* カード内の楽譜画像（低画質風・ぼかし） */
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px) sepia(50%) brightness(70%); /* ARG演出: 初期状態はぼかす */
+            transition: filter 0.3s ease;
+        }
+        .item-card:hover .card-image {
+            filter: blur(1px) sepia(20%) brightness(90%); /* ホバーで少し鮮明に */
+        }
+
+        /* 画像がない場合のダミーテキスト */
+        .no-image-text {
             font-size: 0.8rem;
             color: #444;
         }
@@ -80,6 +101,7 @@
             padding: 5px 10px;
             font-size: 0.7rem;
             letter-spacing: 2px;
+            z-index: 1; /* 画像の上に表示 */
         }
 
         .item-info h2 {
@@ -108,6 +130,28 @@
             margin-top: 10px;
         }
 
+        /* 拡大画像用オーバーレイ（ARG演出） */
+        #imageOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            display: none; /* 初期は非表示 */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: zoom-out;
+        }
+
+        #imageOverlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 0 30px #000;
+        }
+
         footer {
             margin-top: 60px;
             text-align: center;
@@ -115,7 +159,6 @@
             opacity: 0.5;
         }
 
-        /* 隠し要素の演出用（ARG用） */
         .hidden-hint {
             color: transparent;
             user-select: none;
@@ -134,24 +177,26 @@
 </header>
 
 <div class="container">
-    <div class="item-card" onclick="alert('この楽譜の裏面には、インクの染みのような記号が並んでいる。')">
+    <div class="item-card" onclick="showScore()">
         <span class="new-badge">NEW</span>
-        <div class="image-placeholder">
-            [ 擦り切れた五線譜の写真 ]
+        <div class="image-container">
+            <img src="image_7.png" alt="とある楽譜" class="card-image">
         </div>
         <div class="item-info">
             <h2>とある楽譜</h2>
             <span class="price">¥ 4,400</span>
             <p class="description">
-                屋根裏の革トランクから発見された未発表の小品。
+                屋根裏の革トランクから発見された、歌詞もタイトルも持たない異様な楽譜。
                 一部の音符が意図的に塗りつぶされているようにも見える。
+                <br>
+                <span style="font-style:italic; font-size:0.8rem; color:#666;">（クリックして詳細を確認）</span>
             </p>
         </div>
     </div>
 
     <div class="item-card" style="opacity: 0.7; cursor: not-allowed;">
-        <div class="image-placeholder">
-            [ NO IMAGE ]
+        <div class="image-container">
+            <span class="no-image-text">[ NO IMAGE ]</span>
         </div>
         <div class="item-info">
             <h2>剥製用の義眼</h2>
@@ -164,8 +209,8 @@
     </div>
 
     <div class="item-card">
-        <div class="image-placeholder">
-            [ 銀の鍵 ]
+        <div class="image-container">
+            <span class="no-image-text">[ 錆びた銀の鍵 ]</span>
         </div>
         <div class="item-info">
             <h2>錆びた銀の鍵</h2>
@@ -180,6 +225,23 @@
 <footer>
     <p>&copy; 1894-2026 The Archive. <span class="hidden-hint">0x00A4... 扉は開かれた</span></p>
 </footer>
+
+<div id="imageOverlay" onclick="hideScore()">
+    <img src="image_7.png" alt="とある楽譜 高解像度">
+</div>
+
+<script>
+    // 楽譜画像の拡大表示（ARG演出）
+    function showScore() {
+        document.getElementById('imageOverlay').style.display = 'flex';
+        // 前回のalertを削除し、画像そのものが「謎」になるように変更
+    }
+
+    // 拡大画像を閉じる
+    function hideScore() {
+        document.getElementById('imageOverlay').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
