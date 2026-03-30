@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遺失物管理室 | The Archive</title>
+    <style>
+        :root {
+            --bg-color: #1a1612;
+            --card-bg: #2a241e;
+            --text-color: #d4c4a8;
+            --accent-color: #8b4513;
+            --soldout-color: #555;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px double var(--accent-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid #3d352b;
+            padding: 15px;
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 1px inset #222;
+            font-size: 0.8rem;
+            color: #444;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #7a1d1d;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        .item-info h2 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            border-bottom: 1px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .price {
+            display: block;
+            font-family: monospace;
+            margin: 5px 0;
+            color: #a09078;
+        }
+
+        .status-waiting {
+            color: var(--soldout-color);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .description {
+            font-size: 0.85rem;
+            color: #8a7e6a;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* 隠し要素の演出用（ARG用） */
+        .hidden-hint {
+            color: transparent;
+            user-select: none;
+        }
+        .hidden-hint:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>— Since 1894 —</p>
+    <h1>遺失物管理室</h1>
+    <p>当主が蒐集した「役目を終えた品々」の譲渡目録</p>
+</header>
+
+<div class="container">
+    <div class="item-card" onclick="alert('この楽譜の裏面には、インクの染みのような記号が並んでいる。')">
+        <span class="new-badge">NEW</span>
+        <div class="image-placeholder">
+            [ 擦り切れた五線譜の写真 ]
+        </div>
+        <div class="item-info">
+            <h2>とある楽譜</h2>
+            <span class="price">¥ 4,400</span>
+            <p class="description">
+                屋根裏の革トランクから発見された未発表の小品。
+                一部の音符が意図的に塗りつぶされているようにも見える。
+            </p>
+        </div>
+    </div>
+
+    <div class="item-card" style="opacity: 0.7; cursor: not-allowed;">
+        <div class="image-placeholder">
+            [ NO IMAGE ]
+        </div>
+        <div class="item-info">
+            <h2>剥製用の義眼</h2>
+            <span class="price">¥ --,---</span>
+            <p class="status-waiting">入荷待ち（検品中）</p>
+            <p class="description">
+                次回の満月の夜に入荷予定。視線が合う感覚を禁じ得ない逸品。
+            </p>
+        </div>
+    </div>
+
+    <div class="item-card">
+        <div class="image-placeholder">
+            [ 銀の鍵 ]
+        </div>
+        <div class="item-info">
+            <h2>錆びた銀の鍵</h2>
+            <span class="price">SOLD OUT</span>
+            <p class="description">
+                どの扉にも合わないとされる鍵。先見者が持ち去りました。
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 1894-2026 The Archive. <span class="hidden-hint">0x00A4... 扉は開かれた</span></p>
+</footer>
+
+</body>
+</html>
